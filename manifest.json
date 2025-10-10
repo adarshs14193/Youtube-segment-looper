@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Segment Looper",
+  "version": "1.0",
+  "description": "Loop a specific segment of any YouTube video using start and end times.",
+  "permissions": ["scripting", "activeTab"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "YouTube Segment Looper"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://www.youtube.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}

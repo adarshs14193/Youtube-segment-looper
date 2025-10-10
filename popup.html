@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtube Segment Looper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            width: 220px;
+            padding: 10px;
+            background: #f8f9fa;
+        }
+
+        input {
+            width: 100%;
+            margin: 4px 0;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 6px;
+            margin-top: 8px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <h3>YT Segment looper</h3>
+    <label>Start time (hh:mm:ss):</label>
+    <input type="text" id="startTime" placeholder="e.g. 00:00:00">
+    <label>End time (hh:mm:ss):</label>
+    <input type="text" id="endTime" placeholder="e.g. 00:00:10">
+    <button id="loopBtn">Loop Segment</button>
+    <button id="stopBtn">Stop Loop</button>
+    <script src="popup.js"></script>
+</body>
+
+</html>
