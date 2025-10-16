@@ -24,6 +24,7 @@ chrome.runtime.onMessage.addListener((message) => {
         const start = timeToSeconds(message.start);
         const end = timeToSeconds(message.end);
 
+        // Validate time inputs
         if (isNaN(start) || isNaN(end) || start < 0 || end < 0) {
             console.error('Invalid time format provided.');
             chrome.runtime.sendMessage({ action: 'loopError', message: 'Invalid time format provided. Please use HH:MM:SS or MM:SS or SS.' });
