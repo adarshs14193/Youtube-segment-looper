@@ -1,7 +1,7 @@
 function timeToSeconds(timeStr) {
     const parts = timeStr.split(':').map(part => {
         const parsed = parseInt(part, 10);
-        return isNaN(parsed) ? NaN : parsed;
+        return isNaN(parsed) || parsed < 0 ? NaN : parsed;
     });
 
     if (parts.some(isNaN)) {
@@ -9,16 +9,10 @@ function timeToSeconds(timeStr) {
     }
 
     if (parts.length === 3) {
-        // Check for negative hours, minutes, or seconds
-        if (parts[0] < 0 || parts[1] < 0 || parts[2] < 0) return NaN;
         return parts[0] * 3600 + parts[1] * 60 + parts[2];
     } else if (parts.length === 2) {
-        // Check for negative minutes or seconds
-        if (parts[0] < 0 || parts[1] < 0) return NaN;
         return parts[0] * 60 + parts[1];
     } else if (parts.length === 1) {
-        // Check for negative seconds
-        if (parts[0] < 0) return NaN;
         return parts[0];
     } else {
         return NaN;
@@ -39,13 +33,6 @@ function initializeLoop(startStr, endStr) {
     if (isNaN(start) || isNaN(end)) {
         console.error('Invalid time format provided.');
         chrome.runtime.sendMessage({ action: 'loopError', message: 'Invalid time format provided. Please use HH:MM:SS or MM:SS or SS.' });
-        return;
-    }
-
-    // Consolidate negative time checks with timeToSeconds validation
-    if (start < 0 || end < 0) {
-        console.error('Time values cannot be negative.');
-        chrome.runtime.sendMessage({ action: 'loopError', message: 'Time values cannot be negative.' });
         return;
     }
 
@@ -86,8 +73,6 @@ function setupVideoListeners() {
     if (videoElement) {
         videoElement.addEventListener('error', handleVideoError);
     } else {
-        // Optionally, you might want to retry finding the video element if it's not immediately available.
-        // For simplicity here, we just log an error and send a message.
         console.error('No video element found on this page for listeners.');
         chrome.runtime.sendMessage({ action: 'loopError', message: 'No video element found on this page on initial load for listeners.' });
     }
@@ -103,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listen for messages from the background script
     chrome.runtime.onMessage.addListener((message) => {
         if (message.action === 'startLoop') {
-            // Small delay to ensure video element is stable after DOM load if needed.
-            // In many cases, this might not be strictly necessary but adds robustness.
             setTimeout(() => initializeLoop(message.start, message.end), 100);
         } else if (message.action === 'stopLoop') {
             stopLoop();
